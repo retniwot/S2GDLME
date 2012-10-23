@@ -35,6 +35,7 @@ namespace S2GDLME
             graphics = Graphics;
         }
 
+        //use rectangle positional drawing instead of transferring texture2d between textures
        /* public static Texture2D getTileById(int index)
         {
             Texture2D returnTex;
