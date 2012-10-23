@@ -23,10 +23,13 @@ namespace S2GDLME
         {
             int width;
             int height;
+            string name;
+            name = txtName.Text;
+
             width = int.Parse(txtWidth.Text);
             height = int.Parse(txtHeight.Text);
 
-            main.createNewMap(width, height);
+            main.createNewMap(name, width, height);
             this.Hide();
 
         }

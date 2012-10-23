@@ -85,7 +85,7 @@ namespace S2GDLME
             Application.Idle += delegate { Invalidate(); };
 
             TextureManager.init(GraphicsDevice, spriteSheet, objectSheet, unitSheet);
-            map = new Map(this, 100, 100, "testmap");
+            map = new Map(this, 100, 100, "startMap");
         }
 
 

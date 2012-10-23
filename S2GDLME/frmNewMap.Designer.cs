@@ -33,11 +33,13 @@
             this.txtHeight = new System.Windows.Forms.TextBox();
             this.lblWidth = new System.Windows.Forms.Label();
             this.lblHeight = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtName = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnNewMap
             // 
-            this.btnNewMap.Location = new System.Drawing.Point(29, 71);
+            this.btnNewMap.Location = new System.Drawing.Point(33, 113);
             this.btnNewMap.Name = "btnNewMap";
             this.btnNewMap.Size = new System.Drawing.Size(84, 23);
             this.btnNewMap.TabIndex = 0;
@@ -47,14 +49,14 @@
             // 
             // txtWidth
             // 
-            this.txtWidth.Location = new System.Drawing.Point(68, 6);
+            this.txtWidth.Location = new System.Drawing.Point(72, 48);
             this.txtWidth.Name = "txtWidth";
             this.txtWidth.Size = new System.Drawing.Size(45, 20);
             this.txtWidth.TabIndex = 1;
             // 
             // txtHeight
             // 
-            this.txtHeight.Location = new System.Drawing.Point(68, 32);
+            this.txtHeight.Location = new System.Drawing.Point(72, 74);
             this.txtHeight.Name = "txtHeight";
             this.txtHeight.Size = new System.Drawing.Size(45, 20);
             this.txtHeight.TabIndex = 2;
@@ -62,7 +64,7 @@
             // lblWidth
             // 
             this.lblWidth.AutoSize = true;
-            this.lblWidth.Location = new System.Drawing.Point(12, 9);
+            this.lblWidth.Location = new System.Drawing.Point(16, 51);
             this.lblWidth.Name = "lblWidth";
             this.lblWidth.Size = new System.Drawing.Size(38, 13);
             this.lblWidth.TabIndex = 3;
@@ -71,17 +73,35 @@
             // lblHeight
             // 
             this.lblHeight.AutoSize = true;
-            this.lblHeight.Location = new System.Drawing.Point(12, 35);
+            this.lblHeight.Location = new System.Drawing.Point(16, 77);
             this.lblHeight.Name = "lblHeight";
             this.lblHeight.Size = new System.Drawing.Size(41, 13);
             this.lblHeight.TabIndex = 4;
             this.lblHeight.Text = "Height:";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 25);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(38, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Name:";
+            // 
+            // txtName
+            // 
+            this.txtName.Location = new System.Drawing.Point(72, 22);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(45, 20);
+            this.txtName.TabIndex = 5;
+            // 
             // frmNewMap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(147, 109);
+            this.ClientSize = new System.Drawing.Size(147, 148);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtName);
             this.Controls.Add(this.lblHeight);
             this.Controls.Add(this.lblWidth);
             this.Controls.Add(this.txtHeight);
@@ -103,5 +123,7 @@
         private System.Windows.Forms.TextBox txtHeight;
         private System.Windows.Forms.Label lblWidth;
         private System.Windows.Forms.Label lblHeight;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtName;
     }
 }

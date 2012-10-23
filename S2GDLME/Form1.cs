@@ -257,11 +257,11 @@ namespace S2GDLME
             Application.Exit();
         }
 
-        public void createNewMap(int width, int height)
+        public void createNewMap(string name, int width, int height)
         {
 
             mapControl.map = null;
-            mapControl.map = new Map(mapControl, width, height, "testmap");
+            mapControl.map = new Map(mapControl, width, height, name);
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -284,12 +284,12 @@ namespace S2GDLME
 
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        public void saveMap(String name)
         {
             string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             string mapPath = path + "\\maps\\";
 #warning changename
-            StreamWriter writer = new StreamWriter(mapPath + "test" + ".dat");
+            StreamWriter writer = new StreamWriter(mapPath + name + ".dat");
             writer.WriteLine("[Header]");
             writer.WriteLine(mapControl.map.name + ":" + mapControl.map.width + ":" + mapControl.map.height);
             writer.WriteLine("[/Header]");
@@ -326,13 +326,13 @@ namespace S2GDLME
 
             fileDialog.InitialDirectory = Application.StartupPath + "\\Maps\\";
             DialogResult result = fileDialog.ShowDialog();
-            
+
             if (result == DialogResult.OK) // Test result.
             {
                 string file = fileDialog.FileName;
 
                 string mapname = "";
-                int mapwidth = 0 ;
+                int mapwidth = 0;
                 int mapheight = 0;
 
                 bool readingHeader = false;
@@ -342,15 +342,15 @@ namespace S2GDLME
                 MapTile[,] mapArray = new MapTile[0, 0];
                 List<MapObject> mapObjects = new List<MapObject>();
                 //init maparray here
-               
-                
+
+
                 try
                 {
-                    
+
                     StreamReader reader = new StreamReader(file);
                     while (!reader.EndOfStream)
                     {
-                       
+
                         string line = reader.ReadLine();
                         Console.WriteLine(line);
 
@@ -363,7 +363,7 @@ namespace S2GDLME
                         {
                             if (line != "[Header]" && line != "[/Header]") //ignore start and end 
                             {
-                               
+
                                 String[] unparsedLine = line.Split(':');
                                 mapname = unparsedLine[0];
                                 mapwidth = int.Parse(unparsedLine[1]);
@@ -377,13 +377,13 @@ namespace S2GDLME
                                 break;
 
                             }
-  
+
                         }
                     }
                     mapArray = new MapTile[mapwidth, mapheight];
                     reader.Close();
 
-                   
+
                 }
                 catch (IOException ex)
                 {
@@ -395,7 +395,7 @@ namespace S2GDLME
                     StreamReader reader = new StreamReader(file);
                     while (!reader.EndOfStream)
                     {
-                        
+
 
                         string line = reader.ReadLine();
                         Console.WriteLine(line);
@@ -413,7 +413,7 @@ namespace S2GDLME
                                 int X;
                                 int Y;
                                 int ID;
-                                
+
                                 string[] unparsedLine = line.Split(':');
                                 X = int.Parse(unparsedLine[0]);
                                 Y = int.Parse(unparsedLine[1]);
@@ -473,6 +473,13 @@ namespace S2GDLME
             }
             //Console.WriteLine(result); // <-- For debugging use only.
             lblStatusText.Text = "Done.";
+        }
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.saveMap(mapControl.map.name);
+            //frmSave saveForm = new frmSave();
+            //saveForm.init(this);
+            //saveForm.Show();
         }
 
         private void statusMain_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
