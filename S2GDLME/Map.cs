@@ -13,6 +13,8 @@ namespace S2GDLME
         public string name;
 
         public MapTile[,] mapArray;
+        public List<MapLight> mapLights;
+
         public List<MapObject> objectArray;
 
         public int width;
@@ -26,23 +28,28 @@ namespace S2GDLME
          public int drawBufferX = 31;
          public int drawBufferY = 31;
 
+         
         public Map(MapControl mapControl, int width, int height, string name)
          {
             this.mapControl = mapControl;
+
             
 
             this.name = name;
             this.width = width;
             this.height = height;
             this.mapArray = new MapTile[width, height];
+            //this.mapArrayLayer1 = new MapTile[width, height];
 
             this.objectArray = new List<MapObject>();
+            this.mapLights = new List<MapLight>();
 
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
-                    mapArray[x, y] = new MapTile(x, y, 1); ;
+                    mapArray[x, y] = new MapTile(x, y, 1);
+                  //  mapArrayLayer1[x, y] = new MapTile(x, y, 0);
                 }
             }
        
@@ -56,8 +63,9 @@ namespace S2GDLME
                 for (int x = cameraX /32; x < ((cameraX /32) + drawBufferX); x++)
                 {
                     //sp.Draw(mapArray[x, y].texture, new Vector2((x * 32) - cameraX, (y *32) - cameraY), Color.White);
-                    sp.Draw(TextureManager.spriteSheet, new Rectangle((x * 32) - cameraX, (y * 32) - cameraY,32,32), mapArray[x,y].rect,Color.White);
-
+                   
+                    sp.Draw(TextureManager.spriteSheet, new Rectangle(((x * 32) - cameraX), ((y * 32) - cameraY),32,32), mapArray[x,y].rect,Color.White);
+                   //sp.Draw(TextureManager.spriteSheet, new Rectangle(((x * 32) - cameraX) - 32, ((y * 32) - cameraY) - 32, 32, 32), mapArrayLayer1[x, y].rect, Color.White);
                 }
             }
 
@@ -72,6 +80,10 @@ namespace S2GDLME
             this.mapArray = mapArray;
         }
 
+        public void setMapLights(List<MapLight> mapLights)
+        {
+            this.mapLights = mapLights;
+        }
         public void setMapObjects(List<MapObject> mapObjects)
         {
             this.objectArray = mapObjects;

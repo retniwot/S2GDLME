@@ -22,6 +22,8 @@ namespace S2GDLME
         bool tileMode;
         bool unitMode;
 
+        int mapLayer = 0;
+
         public frmMain()
         {
             InitializeComponent();
@@ -102,8 +104,18 @@ namespace S2GDLME
                 //Point mapPosition = new Point(mousePosition.X / 32, mousePosition.Y / 32);
                 if (tileMode)
                 {
-                    this.mapControl.map.mapArray[(mousePosition.X + mapControl.map.cameraX) / 32, (mousePosition.Y + mapControl.map.cameraY) / 32].ID = tileSelected;
-                    this.mapControl.map.mapArray[(mousePosition.X + mapControl.map.cameraX) / 32, (mousePosition.Y + mapControl.map.cameraY) / 32].updateTile();
+                    if (mapLayer == 0)
+                    {
+                        this.mapControl.map.mapArray[(mousePosition.X + mapControl.map.cameraX) / 32, (mousePosition.Y + mapControl.map.cameraY) / 32].ID = tileSelected;
+                        this.mapControl.map.mapArray[(mousePosition.X + mapControl.map.cameraX) / 32, (mousePosition.Y + mapControl.map.cameraY) / 32].updateTile();
+                    }
+                    else if (mapLayer == 1)
+                    {
+                        mousePosition.X += 32;
+                        mousePosition.Y += 32;
+                        //this.mapControl.map.mapArrayLayer1[(mousePosition.X + mapControl.map.cameraX) / 32, (mousePosition.Y + mapControl.map.cameraY) / 32].ID = tileSelected;
+                        //this.mapControl.map.mapArrayLayer1[(mousePosition.X + mapControl.map.cameraX) / 32, (mousePosition.Y + mapControl.map.cameraY) / 32].updateTile();
+                    }
                 }
                 else
                 {
@@ -177,6 +189,11 @@ namespace S2GDLME
                     mapControl.map.cameraY = (((mapControl.map.height - mapControl.map.drawBufferY) - 1) * 32);
                 }
                 mapControl.map.cameraY += 32;
+            }
+            else if (e.KeyCode == Keys.Space)
+            {
+                Console.WriteLine("Adding light");
+                mapControl.map.mapLights.Add(new MapLight(10, 10));
             }
 
             lblMap.Text = "Map: [Camera: " + (mapControl.map.cameraX /32) + ", " + (mapControl.map.cameraY /32 ) + "] - [Dimensions: " + mapControl.map.width + ", " + mapControl.map.height + "]" + " - [Tiles: " + "MaxTiles: " + (mapControl.map.width  * mapControl.map.height) + "]";
@@ -312,6 +329,12 @@ namespace S2GDLME
             }
             writer.WriteLine("[/Objects]");
 
+            writer.WriteLine("[Lights]");
+            for (int i = 0; i < mapControl.map.mapLights.Count; i++)
+            {
+                writer.WriteLine("" + mapControl.map.mapLights[i].X + ":" + mapControl.map.mapLights[i].Y);
+            }
+            writer.WriteLine("[/Lights]");
             writer.Close();
 
 
@@ -338,9 +361,11 @@ namespace S2GDLME
                 bool readingHeader = false;
                 bool readingTiles = false;
                 bool readingObjects = false;
+                bool readingLights = false;
 
                 MapTile[,] mapArray = new MapTile[0, 0];
                 List<MapObject> mapObjects = new List<MapObject>();
+                List<MapLight> mapLights = new List<MapLight>();
                 //init maparray here
 
 
@@ -458,12 +483,34 @@ namespace S2GDLME
                             readingObjects = false;
                         }
 
+                        if (line == "[Lights]")
+                        {
+                            readingLights = true;
 
 
+                        }
+
+                        if (readingLights)
+                        {
+                            if (line != "[Lights]" && line != "[/Lights]")
+                            {
+                                string[] unparsedLine = line.Split(':');
+                                int X = int.Parse(unparsedLine[0]);
+                                int Y = int.Parse(unparsedLine[1]);
+                            }  
+                        }
+
+                        if (line == "[/Lights]")
+                        {
+                            readingLights = false;
+                        }
+
+                        
                         this.mapControl.map = null;
                         this.mapControl.map = new Map(mapControl, mapwidth, mapheight, mapname);
                         this.mapControl.map.setMapArray(mapArray);
                         this.mapControl.map.setMapObjects(mapObjects);
+                        this.mapControl.map.setMapLights(mapLights);
                     }
                     reader.Close();
                 }
